@@ -1,4 +1,4 @@
-package com.example.application;
+package fr.insa.rochette.cours.m3.projets.likes.model;
 
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;

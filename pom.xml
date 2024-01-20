@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <!-- Project from https://start.vaadin.com/project/c6704433-0a6e-4019-9531-941378708807 -->
     <groupId>com.example.application</groupId>
-    <artifactId>mytodo</artifactId>
-    <name>mytodo</name>
+    <artifactId>gestion-vf</artifactId>
+    <name>GestionVf</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 

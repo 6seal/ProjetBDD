@@ -1,4 +1,4 @@
-package com.example.application.views.main;
+package fr.insa.rochette.cours.m3.projets.likes.model.views.main;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
