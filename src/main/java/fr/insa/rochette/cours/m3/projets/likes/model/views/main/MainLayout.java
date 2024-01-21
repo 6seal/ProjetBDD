@@ -60,6 +60,7 @@ public class MainLayout extends AppLayout {
         nav.addItem(new SideNavItem("Ajouter Machine", AjouterMachineView.class,LineAwesomeIcon.FILE.create()));
         nav.addItem(new SideNavItem("Produits", ProduitView.class, VaadinIcon.FILE.create()));
         nav.addItem(new SideNavItem("Ajouter Produit", AjouterProduitView.class,LineAwesomeIcon.FILE.create()));
+        nav.addItem(new SideNavItem("Stockage", StockageView.class,LineAwesomeIcon.FILE.create()));
         
 
 
