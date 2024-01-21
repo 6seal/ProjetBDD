@@ -1,7 +1,10 @@
 package fr.insa.rochette.cours.m3.projets.likes.model;
 
+import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
+import fr.insa.rochette.cours.m3.projets.likes.model.views.main.MainLayout;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,7 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
-@Theme(value = "mytodo")
+@Theme(value = "")
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
