@@ -6,6 +6,7 @@ package fr.insa.rochette.cours.m3.projets.likes.model.views.main;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -13,7 +14,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import fr.insa.rochette.cours.m3.projets.likes.model.GestionBdD;
 import fr.insa.rochette.cours.m3.projets.likes.model.Machine;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -44,6 +44,7 @@ public class AjouterMachineView extends HorizontalLayout{
         add(nom, createMachine);
     }*/
     
+    
     private Dialog dialog;
     private Binder<Machine> binder;
 
@@ -54,6 +55,9 @@ public class AjouterMachineView extends HorizontalLayout{
         // Création du formulaire d'ajout
         TextField nomField = new TextField("Nom");
         TextField descriptionField = new TextField("Description");
+        TextField puissanceField = new TextField("Puissance");
+        TextField coutField = new TextField("Coût horaire");
+        TextField operationtionField = new TextField("Opération");
 
         Button addButton = new Button("Ajouter");
         addButton.addClickListener(event -> {
@@ -73,9 +77,10 @@ public class AjouterMachineView extends HorizontalLayout{
     }
 
     private void ajouterMachine(Machine machine) {
-        try (Connection con = GestionBdD.defautCon()) {
-            machine.ajouterMachine(con);
-        } catch (SQLException ex) {
+        try {
+            machine.sauvegarde(GestionBdD.defautCon());
+        }
+        catch (SQLException ex) {
             // Gérer l'erreur (par exemple, afficher un message à l'utilisateur)
             ex.printStackTrace();
         }
@@ -83,7 +88,7 @@ public class AjouterMachineView extends HorizontalLayout{
 
     private void initializeDialog() {
         dialog = new Dialog();
-        dialog.setHeader("Ajouter une nouvelle machine");
+        add(new H2 ("Ajouter une nouvelle machine"));
         // Ajoutez d'autres configurations de dialog si nécessaire
     }
 
