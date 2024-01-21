@@ -111,12 +111,11 @@ public class AjouterMachineView extends FormLayout{
 
     private void ajouterMachine() {
         // Logique pour ajouter une machine à la base de données
-        Machine.sauvegarde nouvelleMachine = new Machine();
-        nouvelleMachine.setNom(nom.getValue());
-        nouvelleMachine.setDescription(description.getValue());
-        nouvelleMachine.setPuissance(puissance.getValue());
-        nouvelleMachine.setCouthoraire(coutHoraire.getValue());
-        nouvelleMachine.setOperation(operation.getValue());
+        Machine.setNom(nom.getValue());
+        Machine.setDescription(description.getValue());
+        Machine.setPuissance(puissance.getValue());
+        Machine.setCouthoraire(coutHoraire.getValue());
+        Machine.setOperation(operation.getValue());
 
         try {
             // Utilisez la connexion pour ajouter la nouvelle machine à la base de données
