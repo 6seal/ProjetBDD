@@ -166,7 +166,7 @@ public class Utilisateur {
             try{
                 int j=1;
                 if (rep==j++){
-                    System.out.println(ListUtils.enumerateList(produit.tousLesProduits(connSGBD)));
+                    System.out.println(ListUtils.enumerateList(Produit.tousLesProduits(connSGBD)));
                 }else if (rep== j++){
                     System.out.println(ListUtils.enumerateList(Machine.toutesLesMachines(connSGBD)));
                 }else if (rep==j++){
@@ -205,7 +205,7 @@ public class Utilisateur {
             try{
                 int j=1;
                 if (rep==j++){
-                    System.out.println(ListUtils.enumerateList(produit.tousLesProduits(connSGBD)));
+                    System.out.println(ListUtils.enumerateList(Produit.tousLesProduits(connSGBD)));
                 }else if (rep== j++){
                     System.out.println(ListUtils.enumerateList(Machine.toutesLesMachines(connSGBD)));
                 }else if (rep==j++){
@@ -216,7 +216,7 @@ public class Utilisateur {
                     nouveau.sauvegarde(connSGBD);
                     System.out.println("machine N°"+ nouveau.getId()+"crée");
                 }else if (rep==j++){
-                    produit nouveau = produit.demande(connSGBD);
+                    Produit nouveau = Produit.demande(connSGBD);
                     nouveau.sauvegarde(connSGBD);
                     System.out.println("produit N°"+ nouveau.getId()+"crée");
                 }else if (rep==j++){

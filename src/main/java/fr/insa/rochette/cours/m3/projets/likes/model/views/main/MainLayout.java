@@ -12,6 +12,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import static com.vaadin.flow.component.icon.VaadinIcon.CIRCLE;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
@@ -19,6 +20,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import org.vaadin.lineawesome.LineAwesomeIcon;
+import static oshi.hardware.NetworkIF.IfOperStatus.UP;
 
 
 @Route(value = "")
@@ -56,11 +58,11 @@ public class MainLayout extends AppLayout {
         SideNav nav = new SideNav();
 
         nav.addItem(new SideNavItem("Mon Espace", MonEspaceView.class, LineAwesomeIcon.FILE.create()));
-        nav.addItem(new SideNavItem("Machines", MachineView.class, VaadinIcon.FILE.create()));
-        nav.addItem(new SideNavItem("Ajouter Machine", AjouterMachineView.class,LineAwesomeIcon.FILE.create()));
-        nav.addItem(new SideNavItem("Produits", ProduitView.class, VaadinIcon.FILE.create()));
-        nav.addItem(new SideNavItem("Ajouter Produit", AjouterProduitView.class,LineAwesomeIcon.FILE.create()));
-        nav.addItem(new SideNavItem("Stockage", StockageView.class,LineAwesomeIcon.FILE.create()));
+        nav.addItem(new SideNavItem("Machines", MachineView.class, VaadinIcon.AUTOMATION.create()));
+        nav.addItem(new SideNavItem("Ajouter Machine", AjouterMachineView.class,VaadinIcon.ARROW_CIRCLE_UP_O.create()));
+        nav.addItem(new SideNavItem("Produits", ProduitView.class, VaadinIcon.CART.create()));
+        nav.addItem(new SideNavItem("Ajouter Produit", AjouterProduitView.class,VaadinIcon.ARROW_CIRCLE_UP_O.create()));
+        nav.addItem(new SideNavItem("Stockage", StockageView.class,VaadinIcon.ARCHIVE.create()));
         
 
 

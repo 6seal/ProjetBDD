@@ -11,20 +11,18 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import fr.insa.rochette.cours.m3.projets.likes.model.ProduitBrut;
-import fr.insa.rochette.cours.m3.projets.likes.model.produit;
 import java.util.ArrayList;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import fr.insa.rochette.cours.m3.projets.likes.model.GestionBdD;
+import fr.insa.rochette.cours.m3.projets.likes.model.Produit;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-@Route(value = "stockage")
+@Route(value = "stockage",layout=MainLayout.class)
 @PageTitle("Liste des produits | Gestion Production")
 
 
@@ -32,27 +30,23 @@ public class StockageView extends VerticalLayout{
     public StockageView() throws SQLException {
         
         
-        Connection con = GestionBdD.connectSurServeurM3();
-        
+        //Connection con = GestionBdD.connectSurServeurM3();
+
         
         VerticalLayout verticalLayout = new VerticalLayout();
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         
         H3 title1 = new H3("Produits disponibles");
+         //Tableau d'affichage des produits disponibles (à relier à la BdD)
+        Grid<Produit> grid1 = new Grid<>(Produit.class);
         
-        //Tableau d'affichage des produits disponibles (à relier à la BdD)
-        Grid<produit> grid1 = new Grid<>(produit.class);
-        grid1.addColumn(produit::getId).setHeader("Id");
-        grid1.addColumn(produit::getRef).setHeader("Ref");
-        grid1.addColumn(produit::getDescription).setHeader("Description");
+        //grid1.setItems(tousLesProduits(con));
         
-        //Tableau d'affichage des produits bruts disponibles
         H3 title2 = new H3("Produits Bruts disponibles");
         Grid<ProduitBrut> grid2 = new Grid<>(ProduitBrut.class);
-        grid2.addColumn(ProduitBrut::getId).setHeader("Id");
-        grid2.addColumn(ProduitBrut::getDescription).setHeader("Description");
-        grid2.addColumn(ProduitBrut::getNombre).setHeader("Quantité");
-      
+              
+        //grid2.setItems(tousLesProduitsBruts(con));
+        
         //Bouton pour ajouter un produit
         Button BAjout1 = new Button("Ajouter");
         Button BSuppr1 = new Button("Supprimer");
@@ -62,7 +56,7 @@ public class StockageView extends VerticalLayout{
         BSuppr1.getStyle().set("color", "rgb(255,255,255)");
         
         // Création de la boîte de dialogue
-        List<produit> listeProduits = new ArrayList<>();
+        List<Produit> listeProduits = new ArrayList<>();
         
         BAjout1.addClickListener(clickEvent1 -> {
             Dialog dialog = new Dialog();
@@ -88,16 +82,16 @@ public class StockageView extends VerticalLayout{
                 String ref = Tf1.getValue();
                 String description = Tf2.getValue();
 
-                produit produit1 = new produit(ref, description);
+                Produit produit1 = new Produit(ref, description);
                 listeProduits.add(produit1);
-                try {
-                    produit1.sauvegarde(con);
-                } catch (SQLException ex) {
-                    Logger.getLogger(StockageView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                // Mettez à jour les éléments du grid avec la liste complète de produits
+                //try {
+                //    produit1.sauvegarde(con);
+                //} catch (SQLException ex) {
+                //    Logger.getLogger(StockageView.class.getName()).log(Level.SEVERE, null, ex);
+                //}
                 grid1.setItems(listeProduits);
+              
+                saveButton1.getUI().ifPresent(ui -> ui.navigate(StockageView.class));
 
                 dialog.close();
             });
@@ -111,6 +105,8 @@ public class StockageView extends VerticalLayout{
 
             dialog.open();
         });
+        
+        
         Button BAjout2 = new Button("Ajouter");
         Button BSuppr2 = new Button("Supprimer");
         BAjout2.getStyle().set("background-color", "rgb(0,220,0)");
@@ -141,18 +137,25 @@ public class StockageView extends VerticalLayout{
             saveButton2.getStyle().set("color", "green");
 
             saveButton2.addClickListener(clickEvent4 -> {
-                // Ajoutez le produit à la liste au lieu de créer une nouvelle liste
+
                 String des = Tf3.getValue();
                 String qtt = Tf4.getValue();
                 
-                int qttint = Integer.parseInt(qtt);
+                int qttint = Integer.parseInt(qtt); //Transformer le String en int
                 
                 ProduitBrut produitbrut1 = new ProduitBrut(des, qttint);
                 listeProduitsBruts.add(produitbrut1);
-
-                // Mettez à jour les éléments du grid avec la liste complète de produits
+                //try {
+                //    produitbrut1.sauvegarde(con);
+                //} catch (SQLException ex) {
+                //    Logger.getLogger(StockageView.class.getName()).log(Level.SEVERE, null, ex);
+                //}
+                
+                
+                saveButton2.getUI().ifPresent(ui -> ui.navigate(StockageView.class));
+                
                 grid2.setItems(listeProduitsBruts);
-
+                
                 dialog.close();
             });
             
@@ -172,56 +175,5 @@ public class StockageView extends VerticalLayout{
         verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, BAjout2, BSuppr2);
         add(verticalLayout);
       
-        //horizontalLayout.add(verticalLayout);
-        //horizontalLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER,BAjout);
-        //horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
-        //horizontalLayout.setPadding(true);
     }
-    
-    
-    
-    
-    
-    /**private HorizontalLayout getNavigation() {
-        HorizontalLayout nav = new HorizontalLayout();
-        nav.addClassNames(LumoUtility.JustifyContent.CENTER,
-                LumoUtility.Gap.SMALL, LumoUtility.Height.MEDIUM,
-                LumoUtility.Width.FULL);
-        nav.add(createLinkBlue("Machines",MachineView.class),
-                createLink("Produits",MainView.class),
-                // Mettre les liens vers les différentes pages
-        return nav;
-    }
-    
-     private RouterLink createLink(String viewName,Class<? extends Component>  viewClass) {
-        RouterLink link = new RouterLink();
-        link.add(viewName);
-        
-        link.setRoute(viewClass);//nom_de_classe.class genre MainView.class pour MainView (Chemin d'accès)
-
-        link.addClassNames(LumoUtility.Display.FLEX,
-                LumoUtility.AlignItems.CENTER,
-                LumoUtility.Padding.Horizontal.MEDIUM,
-                LumoUtility.TextColor.SECONDARY, LumoUtility.FontWeight.MEDIUM);
-        link.getStyle().set("text-decoration", "none");
-    
-
-        return link;
-    }
-    
-    private RouterLink createLinkBlue(String viewName,Class<? extends Component>  viewClass) {
-        RouterLink link = new RouterLink();
-        link.add(viewName);
-        
-        link.setRoute(viewClass);//nom_de_classe.class genre MainView.class pour MainView (Chemin d'accès)
-
-        link.addClassNames(LumoUtility.Display.FLEX,
-                LumoUtility.AlignItems.CENTER,
-                LumoUtility.Padding.Horizontal.MEDIUM,
-                LumoUtility.TextColor.PRIMARY, LumoUtility.FontWeight.MEDIUM);
-        link.getStyle().set("text-decoration", "none");
-    
-
-        return link;
-    }**/
 }

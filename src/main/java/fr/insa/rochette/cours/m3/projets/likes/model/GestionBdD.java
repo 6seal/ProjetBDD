@@ -35,7 +35,7 @@ public class GestionBdD {
 
     private static Utilisateur utilisateurConnecte;
     public static ConnectionSGBD defautCon() throws SQLException{
-        return ConnectionSGBD.connect(ConnectionSGBD.SGBDConnus.MARIADB,
+        return ConnectionSGBD.connect(ConnectionSGBD.SGBDConnus.MYSQL,
                 "92.222.25.165",3306,"m3_srochette01","m3_srochette01","9d235468");
     }
     

@@ -4,13 +4,8 @@
  */
 package fr.insa.rochette.cours.m3.projets.likes.model.views.main;
 
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import fr.insa.rochette.cours.m3.projets.likes.model.produit;
-import jakarta.annotation.security.PermitAll;
-import java.util.List;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
 
 /**
  *
@@ -18,11 +13,15 @@ import java.util.List;
  */
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import fr.insa.rochette.cours.m3.projets.likes.model.produit;
+import fr.insa.rochette.cours.m3.projets.likes.model.Application;
+import static fr.insa.rochette.cours.m3.projets.likes.model.Application.link;
+import fr.insa.rochette.cours.m3.projets.likes.model.Machine;
+import fr.insa.rochette.cours.m3.projets.likes.model.Produit;
 import jakarta.annotation.security.PermitAll;
-import java.util.List;
+import java.sql.SQLException;
 
 /**
  *
@@ -33,15 +32,45 @@ import java.util.List;
 @PageTitle("Produits | Gestion Production")
 public class ProduitView extends Div {
 
+    private Grid<Produit> grid;
+    private Dialog dialog;
+    
     public ProduitView() {
-        Grid<produit> grid = new Grid<>(produit.class);
-        grid.addColumn(fr.insa.rochette.cours.m3.projets.likes.model.produit::getId).setHeader("Id");
-        grid.addColumn(fr.insa.rochette.cours.m3.projets.likes.model.produit::getRef).setHeader("Nom");
-        grid.addColumn(fr.insa.rochette.cours.m3.projets.likes.model.produit::getDescription).setHeader("Description");
+        
+        grid = new Grid<>(Produit.class);
+        
+        try {     
+            
+            grid.setItems(Produit.tousLesProduits(link));
+        } catch (SQLException ex) {
+            Notification.show("Erreur lors de la visualisation dess machines : " + ex.getMessage());
+        }
 
-        List<produit> produits = produit.produitService.getProduits();
-        grid.setItems(produits);
+        Button supprimer = new Button("Supprimer");
+        supprimer.addClickListener(event -> supprimerProduit());
+        supprimer.addClickListener(e -> Notification.show("Produit supprimée"));
 
-        add(grid);
+        add(grid, supprimer);
     }
+    
+    private void supprimerProduit() {
+        // Récupérer la machine sélectionnée dans la grille
+       Produit produitSelectionne = grid.asSingleSelect().getValue();
+
+        if (produitSelectionne != null) {
+            try {
+                // Utiliser la connexion pour supprimer la machine de la base de données
+                produitSelectionne.delete(Application.link);
+                // Mettre à jour la grille après la suppression
+                grid.setItems(Produit.tousLesProduits(Application.link));
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                Notification.show("Erreur lors de la suppression du produit : " + ex.getMessage());
+            }
+        } else {
+            Notification.show("Veuillez sélectionner un produit à supprimer.");
+        }
+        dialog.close();
+    }
+    
 }

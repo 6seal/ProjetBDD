@@ -62,7 +62,7 @@ public class operation {
     
     public static operation demande(ConnectionSGBD connSGBD)throws SQLException{
         typeop choix1 =ListUtils.selectOne("--- selectionnez un type d'opération",typeop.tousLesTypeop(connSGBD), typeop::toString);
-        produit choix2 =ListUtils.selectOne("--- selectionnez un produit",produit.tousLesProduits(connSGBD), produit::toString);
+        Produit choix2 =ListUtils.selectOne("--- selectionnez un produit",Produit.tousLesProduits(connSGBD), Produit::toString);
         ProduitBrut choix3 =ListUtils.selectOne("--- selectionnez un produit brut",ProduitBrut.tousLesProduitsBruts(connSGBD), ProduitBrut::toString);
         return new operation (choix1.getId(),choix2.getId(),choix3.getString());
     }
